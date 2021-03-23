@@ -8,34 +8,48 @@ class TabsScreen extends StatefulWidget {
 }
 
 class _TabsScreenState extends State<TabsScreen> {
+  final List<Map<String, Object>> _pages = [
+    {'page': CategoriesScreen(), 'title': 'Categories'},
+    {'page': FavoritesScreen(), 'title': 'Favorites'}
+  ];
+  int _selectedPageIndex = 0;
+
+  void _selectPage(int index) {
+    setState(() {
+      _selectedPageIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-        initialIndex: 0,
-        //the first tab is selected by defaul. set 1 if you want the second tab to be selected when entering the app
-        length: 2,
-        child: Scaffold(
-            appBar: AppBar(
-                title: Text('Meals'),
-                centerTitle: true,
-                bottom: TabBar(
-                  tabs: [
-                    Tab(
-                      icon: Icon(Icons.category),
-                      text: 'Categories ',
-                    ),
-                    Tab(
-                      icon: Icon(Icons.star),
-                      text: 'Favorites',
-                    ),
-                  ],
-                )),
-            body: TabBarView(
-              children: [
-                //we will add as many children as we have tabs(in this case 2)
-                CategoriesScreen(),
-                FavoritesScreen(),
-              ],
-            )));
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(_pages[_selectedPageIndex]['title']),
+          centerTitle: true,
+        ),
+        body: _pages[_selectedPageIndex]['page'],
+        bottomNavigationBar: BottomNavigationBar(
+            onTap:
+                _selectPage, // it returns 0,1,... depending on the BottomNavigationBarItem you choose
+            // onTap: (index) => _selectPage(index),//the long version of the above shortcut
+            backgroundColor: Theme.of(context).primaryColor,
+            unselectedItemColor: Colors.white,
+            selectedItemColor: Theme.of(context).accentColor,
+            currentIndex: _selectedPageIndex,
+            type: BottomNavigationBarType.fixed,
+            //type: BottomNavigationBarType.shifting, //when used, you have to set the
+            //backgrounds colors directly into BottomNavigationBarItem
+            items: [
+              BottomNavigationBarItem(
+                //backgroundColor: Theme.of(context).primaryColor,
+                icon: Icon(Icons.category),
+                title: Text('Categories'),
+              ),
+              BottomNavigationBarItem(
+                //backgroundColor: Theme.of(context).primaryColor,
+                icon: Icon(Icons.star),
+                title: Text('Favorites'),
+              ),
+            ]));
   }
 }
