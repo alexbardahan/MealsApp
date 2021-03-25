@@ -5,9 +5,8 @@ import '../models/meal.dart';
 
 class MealItem extends StatelessWidget {
   final Meal meal;
-  final Function removeItem;
 
-  MealItem(this.meal, this.removeItem);
+  MealItem(this.meal);
 
   String get complexityText {
     switch (meal.complexity) {
@@ -49,7 +48,7 @@ class MealItem extends StatelessWidget {
     )
         .then((result) {
       if (result != null) {
-        removeItem(result);
+        // removeItem(result);
       }
     });
     //.then() will get the mealId from meal_detail_screen if we pop the page by pressing the trash button
